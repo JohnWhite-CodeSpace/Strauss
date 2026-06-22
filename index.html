@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Strauss Network Simulator</title>
+    <link rel="stylesheet" href="styles/base.css">
+    <link
+        id="themeStylesheet"
+        rel="stylesheet"
+        href="styles/dark.css">
+
+</head>
+
+<body>
+<div id="appWrapper">
+    <div id="appContainer">
+        <!-- LEFT PANEL -->
+        <div id="leftPanel">
+            <section class="panel">
+                <h2>Controls</h2>
+                <label for="nodes">Nodes</label>
+                <input id="nodes" type="number" value="50">
+                <label for="theta">Theta (θ)</label>
+                <input id="theta" type="number" step="0.1" value="-1.5">
+                <label for="sigma">Sigma (σ)</label>
+                <input id="sigma" type="number" step="0.1" value="0.03">
+                <label for="maxSteps">Max Steps</label>
+                <input id="maxSteps" type="number" value="100000">
+                <label for="logInterval">Log Interval</label>
+                <input id="logInterval" type="number" value="1000">
+                <label for="speed">Speed</label>
+                <input id="speed" type="number" value="100">
+                <div class="buttonGroup">
+                    <button id="startBtn">
+                        Start
+                    </button>
+                    <button id="pauseBtn" disabled>
+                        Pause
+                    </button>
+                    <button id="resetBtn">
+                        Reset
+                    </button>
+                </div>
+            </section>
+            <section class="panel">
+                <h2>Stats</h2>
+                <p>Steps: <span id="statSteps">0</span></p>
+                <p>Edges: <span id="statEdges">0</span></p>
+                <p>Triangles: <span id="statTriangles">0</span></p>
+                <p>Density: <span id="statDensity">0</span></p>
+                <p>Acceptance: <span id="statAcceptance">0</span></p>
+            </section>
+        </div>
+        <!-- CENTER PANEL -->
+        <div id="centerPanel">
+
+            <section class="panel fullHeight">
+                <h2>Network Visualization</h2>
+                <canvas
+                    id="graphCanvas"
+                    width="900"
+                    height="800">
+                </canvas>
+            </section>
+            <div id="centerBottom">
+                <section class="panel">
+                    <h2>Configuration</h2>
+                    <button class="utilityButton" id="savePresetBtn">Save YAML Preset</button>
+                    <button class="utilityButton" id="loadPresetBtn">Load YAML Preset</button>
+                    <input id="yamlFileInput" type="file" accept=".yaml,.yml" hidden>
+                    <div class="selectWrapper">
+                        <select id="themeSelector">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                            <option value="dark_contrast">Dark High Contrast</option>
+                            <option value="classic">Classic</option>
+                        </select>
+                    </div>
+                </section>
+                <section class="panel">
+                    <h2>Resources</h2>
+                    <button class="utilityButton" id="docsBtn">Documentation</button>
+                    <button class="utilityButton" id="presentationBtn">Theory PDF</button>
+                </section>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div id="rightPanel">
+            <section class="panel chartPanel">
+                <h2>Energy H(G)</h2>
+                <canvas
+                    id="energyChart"
+                    width="500"
+                    height="270">
+                </canvas>
+            </section>
+            <section class="panel chartPanel">
+                <h2>Acceptance Rate</h2>
+                <canvas
+                    id="acceptanceChart"
+                    width="500"
+                    height="270">
+                </canvas>
+            </section>
+            <section class="panel chartPanel">
+                <h2>Triangle Count</h2>
+                <canvas
+                    id="triangleChart"
+                    width="500"
+                    height="270">
+                </canvas>
+            </section>
+        </div>
+    </div>
+
+    <div id="analysisPanel">
+
+        <section class="panel analysisChart">
+            <h2>Density vs Steps</h2>
+            <canvas id="densityChart" width="500" height="240"></canvas>
+        </section>
+
+        <section class="panel analysisChart">
+            <h2>Degree Distribution</h2>
+            <canvas id="degreeChart" width="500" height="240"></canvas>
+        </section>
+
+        <section class="panel analysisChart">
+            <h2>Equilibrium Detector</h2>
+            <canvas id="equilibriumChart" width="500" height="240"></canvas>
+        </section>
+
+    </div>
+
+    <div id="hysteresisPanel">
+
+        <section class="panel">
+
+            <h2>Hysteresis Test</h2>
+
+            <label for="sigmaStart">Sigma Start</label>
+            <input id="sigmaStart" type="number" step="0.01" value="0">
+
+            <label for="sigmaEnd">Sigma End</label>
+            <input id="sigmaEnd" type="number" step="0.01" value="2">
+
+            <label for="sigmaStep">Sigma Step</label>
+            <input id="sigmaStep" type="number" step="0.01" value="0.02">
+
+            <label for="stepsPerSigma">Steps / Sigma</label>
+            <input id="stepsPerSigma" type="number" value="50000">
+
+            <button id="runHysteresisBtn">
+                Run Hysteresis
+            </button>
+
+        </section>
+
+        <section class="panel">
+
+            <h2>Hysteresis Loop</h2>
+
+            <canvas id="hysteresisChart" width="700" height="240"></canvas>
+
+        </section>
+
+    </div>
+    <!-- BOTTOM PANEL -->
+
+    <div id="lowerPanel">
+        <div id="bottomPanel">
+            <div id="tabs">
+                <button class="tabButton active" id="consoleTab">Console</button>
+                <button class="tabButton" id="terminalTab">Terminal</button>
+            </div>
+            <div id="tabContent">
+                <div id="consolePanel" class="tabPanel active">
+                    <div id="consoleOutput">Simulation ready...</div>
+                </div>
+                <div id="terminalPanel" class="tabPanel">
+                    <div id="terminalOutput">Type commands...</div>
+                    <input id="terminalInput" placeholder="Enter command...">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="module" src="main.js"></script>
+
+</body>
+</html>

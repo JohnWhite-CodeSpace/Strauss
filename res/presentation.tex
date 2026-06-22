@@ -1,0 +1,207 @@
+\documentclass{beamer}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\title{Model Straussa - sieć o zadanej liczbie krawędzi i trójkątów}
+\author{Jan Biały}
+\institute{Politechnika Warszawska}
+\date{\today}
+
+\begin{document}
+
+%------------------------------------------------
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Czym jest model Straussa?}
+
+Model Straussa jest probabilistycznym modelem sieci złożonych, zaproponowanym początkowo do opisu sieci społecznych.
+
+\vspace{0.5cm}
+
+Główne założenia:
+
+\begin{itemize}
+    \item sieć traktowana jest jako graf losowy,
+    \item prawdopodobieństwo wystąpienia grafu zależy od jego struktury,
+    \item model kontroluje:
+    \begin{itemize}
+        \item liczbę krawędzi,
+        \item liczbę trójkątów.
+    \end{itemize}
+\end{itemize}
+
+\vspace{0.4cm}
+
+Model należy do klasy \textbf{wykładniczych grafów losowych (ERG - Exponentially Random Graph)}.
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Matematyczny opis modelu}
+
+Każda siec ma określone prawdopodobieństwo realizacji $P(G)$. W wykładniczych grafach przypdakowych jest ono opisane funkcją wykładniczą:
+
+\[
+P(G)\propto e^{H(G)}
+\]
+
+gdzie Hamiltonian sieci ma postać:
+
+\[
+H(G)=\theta E(G)+\sigma T(G)
+\]
+
+Parametry:
+
+\begin{itemize}
+    \item $E(G)$ -- liczba krawędzi,
+    \item $T(G)$ -- liczba trójkątów,
+    \item $\theta$ -- kontroluje powstawanie krawędzi,
+    \item $\sigma$ -- kontroluje tendencję do tworzenia skupień.
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Dlaczego trójkąty są ważne?}
+
+Trójkąty opisują lokalne skupiska połączeń w sieci.
+
+\vspace{0.5cm}
+
+W bardzo dużym skrócie można to wytłumaczyć w ten sposób:
+\begin{itemize}
+    \item Osoba A zna osobę B
+    \item Osoba B zna osobę C
+    \item Rośnie prawdopodobieństwo, że A zna C
+\end{itemize}
+
+\vspace{0.5cm}
+
+Wpływ parametru $\sigma$:
+
+\begin{itemize}
+    \item małe $\sigma$ $\rightarrow$ sieć rzadka,
+    \item duże $\sigma$ $\rightarrow$ sieć gęsta, silne klastrowanie.
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Symulacja Monte Carlo i przejścia fazowe}
+
+Dokładne rozwiązanie modelu jest trudne analitycznie.
+
+\vspace{0.4cm}
+
+Dlatego wykorzystuje się metodę Monte Carlo:
+
+\begin{enumerate}
+    \item losujemy parę wierzchołków,
+    \item proponujemy dodanie lub usunięcie krawędzi,
+    \item obliczamy zmianę energii:
+\end{enumerate}
+
+\[
+\Delta H = H(G_j)-H(G_i)
+\]
+
+Akceptacja zmiany następuje zgodnie z kryterium probabilistycznym.
+
+\vspace{0.4cm}
+
+W modelu obserwujemy:
+
+\begin{itemize}
+    \item fazę rzadką,
+    \item fazę gęstą,
+    \item nagłe przejścia fazowe.
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Histereza i zastosowania}
+
+Model Straussa wykazuje zjawisko:
+
+\[
+\textbf{Histerezy}
+\]
+
+czyli zależności aktualnego stanu układu od jego historii.
+
+\vspace{0.5cm}
+
+Oznacza to możliwość występowania nieciągłych przejść fazowych.
+
+\vspace{0.4cm}
+
+Przykładowe zastosowania:
+
+\begin{itemize}
+    \item analiza sieci społecznych,
+    \item modelowanie powstawania społeczności,
+    \item sieci biologiczne,
+    \item badania z zakresu fizyki statystycznej.
+\end{itemize}
+
+\vspace{0.4cm}
+
+Cel projektu: implementacja oraz analiza numeryczna modelu Straussa.
+
+\end{frame}
+
+%------------------------------------------------
+
+%------------------------------------------------
+
+%------------------------------------------------
+
+\begin{frame}{Źródła}
+
+\footnotesize
+
+\begin{itemize}
+
+\item Park J., Newman M.E.J.\\
+\textit{Solution for the properties of a clustered network}\\
+Phys. Rev. E 72 (2005)
+
+\vspace{0.3cm}
+
+\item Fronczak A.\\
+\textit{Wykładnicze grafy przypadkowe: teoria, przykłady, symulacje numeryczne}\\
+\url{https://if.pw.edu.pl/~agatka/pub/2014rozdzERG.pdf}
+
+\vspace{0.3cm}
+
+\item Robins G., Pattison P., Kalish Y., Lusher D.\\
+\textit{Introduction to exponential random graph models}\\
+\url{https://doi.org/10.1016/j.socnet.2006.08.002}
+
+\vspace{0.3cm}
+
+\item Exponential Random Graph Models (ERGM)\\
+\url{https://en.wikipedia.org/wiki/Exponential_family_random_graph_models}
+
+\end{itemize}
+
+\end{frame}
+
+\end{document}

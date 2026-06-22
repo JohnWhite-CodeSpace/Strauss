@@ -1,0 +1,6 @@
+nodes: 50
+theta: -1.2
+sigma: 0.7
+steps: 100000
+logInterval: 1000
+speed: 100

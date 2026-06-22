@@ -1,0 +1,303 @@
+/* ===== BASE LAYOUT ===== */
+
+body{
+margin:0;
+padding:0;
+background:var(--bg-color);
+color:var(--text-color);
+font-family:Inter,Segoe UI,sans-serif;
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:var(--bg-overlay);
+pointer-events:none;
+}
+
+h2{
+margin-top:0;
+font-size:18px;
+color:var(--accent-color);
+}
+
+/* ===== INPUTS ===== */
+
+input{
+width:100%;
+box-sizing:border-box;
+margin-bottom:12px;
+padding:10px;
+border-radius:8px;
+border:1px solid var(--input-border);
+background:var(--input-bg);
+color:var(--input-text);
+font-size:14px;
+}
+
+input:focus{
+outline:none;
+border-color:var(--accent-color);
+box-shadow:0 0 8px var(--focus-shadow);
+}
+
+select{
+width:100%;
+padding:10px;
+padding-right:35px;
+border-radius:8px;
+border:1px solid var(--input-border);
+background:var(--input-bg);
+color:var(--input-text);
+appearance:none;
+-webkit-appearance:none;
+-moz-appearance:none;
+cursor:pointer;
+transition:0.2s ease;
+}
+
+select:hover{
+border-color:var(--accent-color);
+}
+
+.selectWrapper{
+position:relative;
+}
+
+.selectWrapper::after{
+content:"▼";
+position:absolute;
+right:12px;
+top:50%;
+transform:translateY(-50%);
+color:var(--accent-color);
+pointer-events:none;
+font-size:12px;
+}
+
+/* ===== CANVAS ===== */
+
+canvas{
+width:100%;
+border-radius:8px;
+background:var(--canvas-bg);
+}
+
+/* ===== BUTTONS ===== */
+
+button{
+width:100%;
+padding:12px;
+margin-bottom:10px;
+border:1px solid var(--button-border);
+border-radius:10px;
+font-size:14px;
+font-weight:600;
+cursor:pointer;
+transition:0.2s ease;
+background:var(--button-bg);
+color:var(--button-text);
+}
+
+button:hover{
+transform:translateY(-2px);
+filter:brightness(1.08);
+box-shadow:0 0 8px var(--button-hover-shadow);
+}
+
+button:disabled{
+opacity:0.4;
+cursor:not-allowed;
+transform:none;
+}
+
+.utilityButton{
+background:var(--utility-btn-bg);
+color:var(--utility-btn-text);
+border:1px solid var(--utility-btn-border);
+}
+
+#savePresetBtn:hover,
+#loadPresetBtn:hover,
+#docsBtn:hover,
+#presentationBtn:hover{
+box-shadow:0 0 10px var(--utility-btn-shadow);
+}
+
+#startBtn{
+background:var(--start-btn-bg);
+color:var(--start-btn-text);
+}
+
+#pauseBtn{
+background:var(--pause-btn-bg);
+color:var(--pause-btn-text);
+}
+
+#resetBtn{
+background:var(--reset-btn-bg);
+color:var(--reset-btn-text);
+}
+
+/* ===== APP LAYOUT ===== */
+#appWrapper{
+width:1380px;
+margin:0 auto;
+padding:10px;
+box-sizing:border-box;
+}
+
+#appContainer{
+display:grid;
+grid-template-columns:260px 680px 420px;
+gap:10px;
+align-items:start;
+}
+
+
+#lowerPanel{
+width:100%;
+}
+
+#bottomPanel{
+margin:0;
+}
+
+#leftPanel,
+#centerPanel,
+#rightPanel{
+display:flex;
+flex-direction:column;
+height:100%;
+}
+
+#centerBottom{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:12px;
+}
+
+#centerBottom .panel{
+min-height:160px;
+}
+
+#rightPanel{
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
+
+#bottomPanel{
+margin:10px;
+}
+
+/* ===== PANELS ===== */
+
+.panel{
+background:var(--panel-color);
+border-radius:14px;
+padding:18px;
+margin-bottom:8px;
+box-shadow:var(--panel-shadow);
+border:1px solid var(--panel-border);
+}
+
+.fullHeight{
+flex:1;
+}
+
+.chartPanel{
+margin-bottom:8px;
+padding:20px;
+}
+
+#leftPanel .panel:last-child{
+flex:1;
+}
+
+#analysisPanel{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:10px;
+padding:0 10px;
+margin-bottom:10px;
+}
+
+#hysteresisPanel{
+display:grid;
+grid-template-columns:320px 1fr;
+gap:10px;
+margin:10px;
+align-items:start;
+}
+
+.extraChartPanel{
+margin-bottom:0;
+padding:16px;
+min-height:260px;
+}
+
+/* ===== STATS ===== */
+
+#stats p{
+display:flex;
+justify-content:space-between;
+border-bottom:1px solid var(--stats-border);
+padding-bottom:4px;
+}
+
+/* ===== TABS ===== */
+
+#tabs{
+display:flex;
+gap:8px;
+margin-bottom:10px;
+}
+
+.tabButton{
+padding:8px 16px;
+border:1px solid var(--tab-border);
+cursor:pointer;
+background:var(--tab-bg);
+color:var(--text-color);
+border-radius:6px 6px 0 0;
+margin-bottom:0;
+}
+
+.tabButton.active{
+background:var(--tab-active-bg);
+color:var(--tab-active-text);
+}
+
+#tabContent{
+padding:10px;
+min-height:180px;
+}
+
+.tabPanel{
+display:none;
+}
+
+.tabPanel.active{
+display:block;
+}
+
+/* ===== CONSOLE ===== */
+
+#consoleOutput,
+#terminalOutput{
+height:140px;
+overflow-y:auto;
+white-space:pre-wrap;
+font-family:Consolas,monospace;
+padding:8px;
+background:var(--console-bg);
+color:var(--console-color);
+}
+
+#terminalInput{
+width:100%;
+margin-top:10px;
+padding:8px;
+}
