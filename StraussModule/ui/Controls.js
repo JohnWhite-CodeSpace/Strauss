@@ -94,8 +94,9 @@ export class Controls {
         button.textContent=running ? "Running..." : "Run Hysteresis";
     }
     onPresentation(callback){
-        document
-            .getElementById("presentationBtn")
-            .addEventListener("click", callback);
+        document.getElementById("presentationBtn").addEventListener("click", callback);
+    }
+    onDocumentation(callback){
+        document.getElementById("docsBtn").addEventListener("click", callback);
     }
 }

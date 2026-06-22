@@ -47,6 +47,7 @@ export class App {
         this.controls.onHysteresis(()=>this.runHysteresis());
         this.controls.onRunHysteresis(()=>this.runHysteresis());
         this.controls.onPresentation(() => this.openPresentation());
+        this.controls.onDocumentation(() => this.openDocumentation());
     }
     start(){
     this.console.log("Simulation started");
@@ -296,5 +297,9 @@ export class App {
     openPresentation(){
         const pdfPath="./res/presentation.pdf";
         window.open(pdfPath,"_blank");
+    }
+    openDocumentation(){
+        window.open("https://github.com/JohnWhite-CodeSpace/Strauss","_blank");
+        this.console.log("[INFO] Opening documentation...");
     }
 }
