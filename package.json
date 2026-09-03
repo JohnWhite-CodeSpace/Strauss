@@ -1,16 +1,64 @@
 {
-  "name": "strauss",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
-  "dependencies": {
-    "js-yaml": "^4.2.0"
-  }
+    "name": "strauss",
+    "version": "1.0.0",
+    "description": "Strauss Network Simulator",
+    "main": "electron/main.js",
+    "scripts": {
+        "start": "electron .",
+        "dist": "electron-builder",
+        "pack": "electron-builder --dir"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "module",
+    "dependencies": {
+        "js-yaml": "^4.2.0"
+    },
+    "devDependencies": {
+        "electron": "^44.1.1",
+        "electron-builder": "^26.15.3"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/JohnWhite-CodeSpace/Strauss.git"
+    },
+    "bugs": {
+        "url": "https://github.com/JohnWhite-CodeSpace/Strauss/issues"
+    },
+    "homepage": "https://github.com/JohnWhite-CodeSpace/Strauss#readme",
+    "build": {
+        "appId": "com.johnwhite.strauss",
+        "productName": "Strauss Network Simulator",
+        "icon": "build/icon.ico",
+        "directories": {
+            "output": "release"
+        },
+        "files": [
+            "electron/**/*",
+            "StraussModule/**/*",
+            "styles/**/*",
+            "index.html",
+            "main.js",
+            "package.json",
+            "res/presentation.pdf"
+        ],
+        "extraResources": [
+            {
+                "from": "StraussModule/python_core/dist/StraussBackend",
+                "to": "backend"
+            }
+        ],
+        "win": {
+            "target": [
+                "nsis"
+            ]
+        },
+        "nsis": {
+            "oneClick": false,
+            "allowToChangeInstallationDirectory": true,
+            "createDesktopShortcut": true,
+            "createStartMenuShortcut": true
+        }
+    }
 }

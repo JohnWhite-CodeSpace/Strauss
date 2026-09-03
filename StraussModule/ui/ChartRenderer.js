@@ -5,10 +5,12 @@ constructor(canvasId){
     this.ctx = this.canvas.getContext("2d");
 }
 
+// #######################################################################################################
     clear(){
         this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
     }
 
+// #######################################################################################################
     draw(history, config={}){
         this.clear();
         if(!history || history.length<2){
@@ -22,6 +24,7 @@ constructor(canvasId){
         this.drawLine(history, bounds, config);
     }
 
+// #######################################################################################################
     drawTwoLines(history1,history2,config1,config2){
         this.clear();
         const merged=[...history1,...history2];
@@ -37,6 +40,7 @@ constructor(canvasId){
         this.drawLine(history2,bounds,config2,maxX);
     }
 
+// #######################################################################################################
     drawLine(history, bounds, config ,externalMaxX=null){
         const {leftPadding, rightPadding, topPadding, bottomPadding, minY, maxY} = bounds;
         const ctx = this.ctx;
@@ -69,6 +73,7 @@ constructor(canvasId){
         ctx.shadowBlur = 0;
     }
 
+// #######################################################################################################
     drawAxes(bounds){
         const {leftPadding, rightPadding, topPadding, bottomPadding} = bounds;
         const ctx = this.ctx;
@@ -100,6 +105,7 @@ constructor(canvasId){
         }
     }
 
+// #######################################################################################################
     drawGrid(bounds){
         const {leftPadding, rightPadding, topPadding, bottomPadding} = bounds;
         const ctx = this.ctx;
@@ -128,6 +134,7 @@ constructor(canvasId){
         }
     }
 
+// #######################################################################################################
     drawLabels(history, bounds, config,externalMaxX=null){
         const {leftPadding, rightPadding, topPadding, bottomPadding, minY, maxY} = bounds;
         const formatter = config.formatter || this.formatValue;
@@ -165,6 +172,7 @@ constructor(canvasId){
         ctx.restore();
     }
 
+// #######################################################################################################
     getChartBounds(history, config){
         const formatter = config.formatter || this.formatValue;
         const ctx = this.ctx;
@@ -180,6 +188,7 @@ constructor(canvasId){
         return {leftPadding, rightPadding, topPadding, bottomPadding, minY, maxY};
     }
 
+// #######################################################################################################
     formatValue(value){
 
         if(Math.abs(value)>= 1000000){
@@ -192,11 +201,13 @@ constructor(canvasId){
         return value.toFixed(1);
     }
     
+// #######################################################################################################
     getThemeColor(variable){
         const style =getComputedStyle(document.documentElement);
         return style.getPropertyValue(variable);
     }
 
+// #######################################################################################################
     formatFloat(value){
         return value.toFixed(2);
     }

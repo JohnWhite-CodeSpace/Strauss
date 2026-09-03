@@ -2,6 +2,7 @@ import * as yaml from "https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/+esm";
 
 export class YamlManager {
 
+// #######################################################################################################
     save(config){
         const yamlText = yaml.dump(config);
         const blob = new Blob([yamlText], {type:"text/yaml"});
@@ -13,6 +14,7 @@ export class YamlManager {
         URL.revokeObjectURL(url);
     }
 
+// #######################################################################################################
     load(file){
 
         return new Promise((resolve,reject)=>{
@@ -29,6 +31,8 @@ export class YamlManager {
             reader.readAsText(file);
         });
     }
+
+// #######################################################################################################
     getPresetName(){
         return document
             .getElementById("presetName")

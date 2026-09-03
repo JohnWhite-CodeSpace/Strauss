@@ -10,6 +10,7 @@ export class Terminal{
         this.bindEvents();
     }
 
+// #######################################################################################################
     bindEvents(){
         this.input.addEventListener(
             "keydown",

@@ -55,13 +55,46 @@
         <div id="centerPanel">
 
             <section class="panel fullHeight">
-                <h2>Network Visualization</h2>
+                <div class="visualizationHeader">
+                    <h2>Network Visualization</h2>
+
+                        <div class="layoutControl">
+                            <label for="layoutSelector">
+                                Layout
+                            </label>
+
+                            <div class="selectWrapper">
+                                <select id="layoutSelector">
+                                    <option value="circular">
+                                        Circular
+                                    </option>
+                                    <option value="force">
+                                        Force Directed
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div id="forceTemperatureControl">
+                                <label for="forceTemperature">
+                                    Temperature
+                                </label>
+
+                                <input
+                                    id="forceTemperature"
+                                    type="number"
+                                    step="0.1"
+                                    min="0.1"
+                                    value="80">
+                            </div>
+                        </div>
+
                 <canvas
                     id="graphCanvas"
                     width="900"
                     height="800">
                 </canvas>
             </section>
+
             <div id="centerBottom">
                 <section class="panel">
                     <h2>Configuration</h2>
@@ -77,6 +110,7 @@
                         </select>
                     </div>
                 </section>
+
                 <section class="panel">
                     <h2>Resources</h2>
                     <button class="utilityButton" id="docsBtn">Documentation</button>

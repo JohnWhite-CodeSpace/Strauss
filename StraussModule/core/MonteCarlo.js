@@ -10,6 +10,7 @@ export class MonteCarlo {
         this.history = {energy: [], acceptance: [], triangles: [], states: [], density:[], equilibrium:[]};
     }
 
+// #######################################################################################################
     acceptMove(deltaH) {
         if (deltaH >= 0) {
             return true;
@@ -19,6 +20,7 @@ export class MonteCarlo {
         return Math.random() < probability;
     }
 
+// #######################################################################################################
     saveSnapshot() {
 
         this.history.states.push({
@@ -30,6 +32,7 @@ export class MonteCarlo {
         });
     }
 
+// #######################################################################################################
     saveChartData() {
 
         const energy = this.model.calculateEnergy(this.graph);
@@ -50,6 +53,7 @@ export class MonteCarlo {
         this.history.equilibrium.push({step:this.steps, value:variance});
     }
 
+// #######################################################################################################
     step() {
         const [i, j] = this.graph.getRandomPair();
         const deltaH = this.model.computeDelta(this.graph, i, j);
@@ -70,23 +74,24 @@ export class MonteCarlo {
         return accepted;
     }
 
+// #######################################################################################################
     run(numberOfSteps) {
         for (let i = 0; i < numberOfSteps; i++) {
             this.step();
         }
     }
 
-
+// #######################################################################################################
     getHistory() {
         return this.history;
     }
 
-
+// #######################################################################################################
     clearHistory() {
         this.history = {energy: [], acceptance: [], triangles: [], states: []};
     }
 
-
+// #######################################################################################################
     getStats() {
         const maxEdges =this.graph.nodeCount * (this.graph.nodeCount - 1)/ 2;
         return {steps: this.steps,acceptedMoves: this.acceptedMoves,

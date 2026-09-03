@@ -2,6 +2,7 @@ import { Graph } from "../core/Graph.js";
 import { MonteCarlo } from "../core/MonteCarlo.js";
 import { StraussModel } from "../core/StraussModel.js";
 
+// #######################################################################################################
 function fastMonteCarlo(graph,model,steps){
 
     for(let i=0;i<steps;i++){
@@ -16,6 +17,7 @@ function fastMonteCarlo(graph,model,steps){
     }
 }
 
+// #######################################################################################################
 self.onmessage=function(event){
 
     const {nodes,theta, sigmaStart, sigmaEnd, sigmaStep, stepsPerSigma}=event.data;

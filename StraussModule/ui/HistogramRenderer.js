@@ -5,6 +5,7 @@ export class HistogramRenderer{
         this.ctx=this.canvas.getContext("2d");
     }
 
+// #######################################################################################################
     clear(){
         this.ctx.clearRect(
             0,
@@ -14,6 +15,7 @@ export class HistogramRenderer{
         );
     }
 
+// #######################################################################################################
     draw(data){
         const bins=this.createBins(data);
         const bounds=this.getBounds(bins);
@@ -25,6 +27,7 @@ export class HistogramRenderer{
         this.drawBars(bins,bounds);
     }
 
+// #######################################################################################################
     createBins(data){
         const maxDegree=Math.max(...data);
         const bins=new Array(maxDegree+1).fill(0);
@@ -33,6 +36,7 @@ export class HistogramRenderer{
         return bins;
     }
 
+// #######################################################################################################
     drawGrid(bounds){
         const{leftPadding, rightPadding, topPadding, bottomPadding}=bounds;
         const ctx=this.ctx;
@@ -50,6 +54,7 @@ export class HistogramRenderer{
         }
     }
 
+// #######################################################################################################
     drawAxes(bounds){
 
         const{leftPadding,rightPadding,topPadding,bottomPadding}=bounds;
@@ -82,6 +87,7 @@ export class HistogramRenderer{
         }
     }
 
+// #######################################################################################################
     drawLabels(bins,bounds){
         const{leftPadding, rightPadding, topPadding, bottomPadding,maxCount}=bounds;
         const ctx=this.ctx;
@@ -110,6 +116,7 @@ export class HistogramRenderer{
         ctx.restore();
     }
 
+// #######################################################################################################
     drawBars(bins,bounds){
 
         const{leftPadding, rightPadding, topPadding, bottomPadding, maxCount}=bounds;
@@ -130,6 +137,7 @@ export class HistogramRenderer{
         }
     }
 
+// #######################################################################################################
     getBounds(bins){
         const ctx=this.ctx;
         const maxCount=Math.max(...bins);
@@ -141,6 +149,8 @@ export class HistogramRenderer{
 
         return{leftPadding, rightPadding,topPadding,bottomPadding,maxCount};
     }
+
+// #######################################################################################################
     getThemeColor(variable){
         const style=getComputedStyle(document.documentElement);
         return style.getPropertyValue(variable);

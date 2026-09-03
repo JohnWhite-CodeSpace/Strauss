@@ -8,10 +8,12 @@ export class Graph {
         this.degrees = new Uint32Array(nodeCount);
     }
 
+// #######################################################################################################
     hasEdge(i, j) {
         return this.adjacency[i].has(j);
     }
 
+// #######################################################################################################
     addEdge(i, j) {
         if (i === j || this.hasEdge(i, j)) return false;
         const deltaTriangles = this.commonNeighbors(i, j);
@@ -25,6 +27,7 @@ export class Graph {
         return true;
     }
 
+// #######################################################################################################
     removeEdge(i, j) {
         if (!this.hasEdge(i, j)) return false;
         const deltaTriangles = this.commonNeighbors(i, j);
@@ -38,6 +41,7 @@ export class Graph {
         return true;
     }
 
+// #######################################################################################################
     toggleEdge(i, j) {
         if (this.hasEdge(i, j)) {
             return this.removeEdge(i, j);
@@ -46,18 +50,22 @@ export class Graph {
         return this.addEdge(i, j);
     }
 
+// #######################################################################################################
     degree(i) {
         return this.degrees[i];
     }
 
+// #######################################################################################################
     countEdges() {
         return this.edgeCount;
     }
 
+// #######################################################################################################
     countTriangles() {
         return this.triangleCount;
     }
 
+// #######################################################################################################
     commonNeighbors(i, j) {
         let count = 0;
         const smaller = this.degrees[i] < this.degrees[j] ? this.adjacency[i] : this.adjacency[j];
@@ -70,6 +78,7 @@ export class Graph {
         return count;
     }
 
+// #######################################################################################################
     getRandomPair() {
         let i = Math.floor(Math.random() * this.nodeCount);
         let j = Math.floor(Math.random() * this.nodeCount);
@@ -80,13 +89,15 @@ export class Graph {
 
         return [i, j];
     }
-    
+
+// #######################################################################################################
     print() {
         for (let i = 0; i < this.nodeCount; i++) {
             console.log(`${i}: ${[...this.adjacency[i]].join(" ")}`);
         }
     }
 
+// #######################################################################################################
     printMatrix() {
         for (let i = 0; i < this.nodeCount; i++) {
             console.log(
@@ -97,6 +108,7 @@ export class Graph {
         }
     }
 
+// #######################################################################################################
     validate() {
         let edges = 0;
 
@@ -113,6 +125,8 @@ export class Graph {
             throw new Error("Wrong edge count");
         }
     }
+
+// #######################################################################################################
     getDegreeDistribution(){
         const degrees=[];
         for(let i=0;i<this.nodeCount;i++){

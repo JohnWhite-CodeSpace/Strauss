@@ -3,7 +3,7 @@ export class StraussModel {
         this.theta = theta;
         this.sigma = sigma;
     }
-
+// #######################################################################################################
     computeDelta(graph,i,j){
 
         const edgeExists=graph.hasEdge(i,j);
@@ -29,6 +29,8 @@ export class StraussModel {
 
         return result;
     }
+
+// #######################################################################################################
     calculateEnergy(graph){
         const edges = graph.countEdges();
         const triangles = graph.countTriangles();

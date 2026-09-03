@@ -7,6 +7,7 @@ export class Console{
         this.setupTabs();
     }
 
+// #######################################################################################################
     setupTabs(){
 
         const consoleTab = document.getElementById("consoleTab");
@@ -28,12 +29,14 @@ export class Console{
         });
     }
 
+// #######################################################################################################
     log(message){
         const time =new Date().toLocaleTimeString();
         this.consoleOutput.innerHTML += `[${time}] ${message}\n`;
         this.consoleOutput.scrollTop = this.consoleOutput.scrollHeight;
     }
 
+// #######################################################################################################
     clear(){
         this.consoleOutput.innerHTML = "";
     }
