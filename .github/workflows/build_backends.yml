@@ -1,0 +1,92 @@
+name: Build Python Backends
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r StraussModule/python_core/requirements.txt
+          pip install pyinstaller
+
+      - name: Build backend
+        run: |
+          cd StraussModule/python_core
+          pyinstaller --onedir --name StraussBackend server.py
+
+      - name: Upload Windows backend
+        uses: actions/upload-artifact@v4
+        with:
+          name: StraussBackend-windows
+          path: StraussModule/python_core/dist/StraussBackend
+
+
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r StraussModule/python_core/requirements.txt
+          pip install pyinstaller
+
+      - name: Build backend
+        run: |
+          cd StraussModule/python_core
+          pyinstaller --onedir --name StraussBackend server.py
+
+      - name: Upload Linux backend
+        uses: actions/upload-artifact@v4
+        with:
+          name: StraussBackend-linux
+          path: StraussModule/python_core/dist/StraussBackend
+
+
+  build-macos:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r StraussModule/python_core/requirements.txt
+          pip install pyinstaller
+
+      - name: Build backend
+        run: |
+          cd StraussModule/python_core
+          pyinstaller --onedir --name StraussBackend server.py
+
+      - name: Upload macOS backend
+        uses: actions/upload-artifact@v4
+        with:
+          name: StraussBackend-macos
+          path: StraussModule/python_core/dist/StraussBackend
