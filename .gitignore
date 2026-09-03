@@ -1,0 +1,24 @@
+# Node
+node_modules/
+
+# Electron builds
+release/
+dist/
+
+# PyInstaller builds
+build/
+StraussBackend.spec
+
+# Generated backends
+backends/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+.venv/
+
+# OS
+.DS_Store
+Thumbs.db
