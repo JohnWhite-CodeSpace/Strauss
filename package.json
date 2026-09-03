@@ -6,9 +6,9 @@
     "scripts": {
         "start": "electron .",
         "dist": "electron-builder",
-        "dist:win": "electron-builder --win",
-        "dist:linux": "electron-builder --linux",
-        "dist:mac": "electron-builder --mac",
+        "dist:win": "electron-builder --win --publish never",
+        "dist:linux": "electron-builder --linux --publish never",
+        "dist:mac": "electron-builder --mac --publish never",
         "pack": "electron-builder --dir"
     },
     "keywords": [],
