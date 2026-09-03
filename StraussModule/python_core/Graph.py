@@ -4,6 +4,7 @@ import random
 
 class Graph:
 
+########################################################################################################
     def __init__(self, nodeCount):
         self.nodeCount = nodeCount
         self.adjacency = np.zeros((nodeCount, nodeCount), dtype=np.uint8)
@@ -11,9 +12,11 @@ class Graph:
         self.triangleCount = 0
         self.degrees = np.zeros(nodeCount, dtype=np.uint32)
 
+########################################################################################################
     def hasEdge(self, i, j):
         return self.adjacency[i, j] == 1
-
+    
+########################################################################################################
     def addEdge(self, i, j):
         if i == j or self.hasEdge(i, j):
             return False
@@ -28,7 +31,7 @@ class Graph:
 
         return True
 
-
+########################################################################################################
     def removeEdge(self, i, j):
         if not self.hasEdge(i, j):
             return False
@@ -43,26 +46,26 @@ class Graph:
 
         return True
 
-
+########################################################################################################
     def toggleEdge(self, i, j):
         if self.hasEdge(i, j):
             return self.removeEdge(i, j)
 
         return self.addEdge(i, j)
 
-
+########################################################################################################
     def degree(self, i):
         return int(self.degrees[i])
 
-
+########################################################################################################
     def countEdges(self):
         return self.edgeCount
 
-
+########################################################################################################
     def countTriangles(self):
         return self.triangleCount
 
-
+########################################################################################################
     def commonNeighbors(self, i, j):
         count = 0
         for node in range(self.nodeCount):
@@ -71,7 +74,7 @@ class Graph:
 
         return count
 
-
+########################################################################################################
     def getRandomPair(self):
         i = random.randrange(self.nodeCount)
         j = random.randrange(self.nodeCount)
@@ -81,7 +84,7 @@ class Graph:
 
         return i, j
 
-
+########################################################################################################
     def getEdges(self):
         edges = []
 
@@ -92,17 +95,18 @@ class Graph:
 
         return edges
 
-
+########################################################################################################
     def print(self):
         for i in range(self.nodeCount):
             neighbors = np.where(self.adjacency[i] == 1)[0]
             print(f"{i}: {' '.join(map(str, neighbors))}")
 
+########################################################################################################
     def printMatrix(self):
         for i in range(self.nodeCount):
             print(" ".join(str(int(value)) for value in self.adjacency[i]))
 
-
+########################################################################################################
     def validate(self):
         edges = 0
 
@@ -118,7 +122,7 @@ class Graph:
         if edges != self.edgeCount:
             raise RuntimeError("Wrong edge count")
 
-
+########################################################################################################
     def getDegreeDistribution(self):
         degrees = []
 

@@ -6,6 +6,9 @@
     "scripts": {
         "start": "electron .",
         "dist": "electron-builder",
+        "dist:win": "electron-builder --win",
+        "dist:linux": "electron-builder --linux",
+        "dist:mac": "electron-builder --mac",
         "pack": "electron-builder --dir"
     },
     "keywords": [],
@@ -30,7 +33,6 @@
     "build": {
         "appId": "com.johnwhite.strauss",
         "productName": "Strauss Network Simulator",
-        "icon": "build/icon.ico",
         "directories": {
             "output": "release"
         },
@@ -40,18 +42,66 @@
             "styles/**/*",
             "index.html",
             "main.js",
-            "package.json",
-            "res/presentation.pdf"
-        ],
-        "extraResources": [
-            {
-                "from": "StraussModule/python_core/dist/StraussBackend",
-                "to": "backend"
-            }
+            "package.json"
         ],
         "win": {
+            "icon": "build/icon.ico",
             "target": [
                 "nsis"
+            ],
+            "extraResources": [
+                {
+                    "from": "res/presentation.pdf",
+                    "to": "presentation.pdf"
+                },
+                {
+                    "from": "backends/win/StraussBackend-windows",
+                    "to": "backend"
+                },
+                {
+                    "from": "configs",
+                    "to": "configs"
+                }
+            ]
+        },
+        "linux": {
+            "icon": "build/icon.png",
+            "target": [
+                "AppImage"
+            ],
+            "extraResources": [
+                {
+                    "from": "res/presentation.pdf",
+                    "to": "presentation.pdf"
+                },
+                {
+                    "from": "backends/linux/StraussBackend-linux",
+                    "to": "backend"
+                },
+                {
+                    "from": "configs",
+                    "to": "configs"
+                }
+            ]
+        },
+        "mac": {
+            "icon": "build/icon.icns",
+            "target": [
+                "dmg"
+            ],
+            "extraResources": [
+                {
+                    "from": "res/presentation.pdf",
+                    "to": "presentation.pdf"
+                },
+                {
+                    "from": "backends/mac/StraussBackend-macos",
+                    "to": "backend"
+                },
+                {
+                    "from": "configs",
+                    "to": "configs"
+                }
             ]
         },
         "nsis": {

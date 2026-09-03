@@ -76,14 +76,7 @@ export class Controls {
 
 // #######################################################################################################
     onLoadConfig(callback){
-        const fileInput = document.getElementById("yamlFileInput");
-        document.getElementById("loadPresetBtn").addEventListener("click", () => fileInput.click());
-        fileInput.addEventListener("change",() => {const file = fileInput.files[0];
-                if(file){
-                    callback(file);
-                }
-            }
-        );
+        document.getElementById("loadPresetBtn").addEventListener("click", callback);
     }
 
 // #######################################################################################################
@@ -121,7 +114,12 @@ export class Controls {
 
 // #######################################################################################################
     onPresentation(callback){
-        document.getElementById("presentationBtn").addEventListener("click",callback);
+
+        document.getElementById("presentationBtn").addEventListener("click",() => {
+            console.log("[PRESENTATION] Button clicked");
+            callback();
+        });
+
     }
 
 // #######################################################################################################

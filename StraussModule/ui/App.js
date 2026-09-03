@@ -88,7 +88,7 @@ export class App {
         this.controls.onPause(() => this.pause());
         this.controls.onReset(() => this.reset());
         this.controls.onSaveConfig(() => this.saveConfig());
-        this.controls.onLoadConfig((file) => this.loadConfig(file));
+        this.controls.onLoadConfig(() => this.loadConfig());
         this.controls.onThemeChange((event) => this.changeTheme(event.target.value));
         this.controls.onRunHysteresis(() => this.runHysteresis());
         this.controls.onPresentation(() => this.openPresentation());
@@ -404,16 +404,27 @@ export class App {
     }
 
 // #######################################################################################################
-    async loadConfig(file){
-        try{
-            const config = await this.yamlManager.load(file);
-            this.controls.setConfig(config);
-            this.console.log(`[CONFIG] Loaded config: ${file.name}`);
+    async loadConfig(){
+
+        if(!window.electronAPI){
+            console.error("[CONFIG] electronAPI is not available");
+            return;
         }
 
+        try{
+            const result = await window.electronAPI.openConfig();
+            if(result.canceled){
+                return;
+            }
+            const file = new File([result.content], result.name, {type: "application/x-yaml"});
+            const config = await this.yamlManager.load(file);
+            this.controls.setConfig(config);
+            this.console.log(`[CONFIG] Loaded config: ${result.name}`);
+
+        }
         catch(error){
             console.error(error);
-            this.console.log(`[CONFIG] Failed to load config: ${file.name}, ${error}`);
+            this.console.log(`[CONFIG] Failed to load config: ${error}`);
             alert("Invalid YAML file");
         }
     }
@@ -543,9 +554,18 @@ export class App {
     }
 
 // #######################################################################################################
-    openPresentation(){
-        const pdfPath = "./res/presentation.pdf";
-        window.open(pdfPath, "_blank");
+    async openPresentation(){
+
+        if(!window.electronAPI){
+            console.error("[PRESENTATION] electronAPI is not available");
+            return;
+        }
+
+        const result = await window.electronAPI.openPresentation();
+
+        if(!result.success){
+            console.error("[PRESENTATION] Error:", result.error);
+        }
     }
 
 // #######################################################################################################

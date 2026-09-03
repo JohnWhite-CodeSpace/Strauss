@@ -1,4 +1,4 @@
-import {app, BrowserWindow} from "electron";
+import {app, BrowserWindow, ipcMain, shell, dialog} from "electron";
 import path from "path";
 import {spawn} from "child_process";
 import {fileURLToPath} from "url";
@@ -8,27 +8,6 @@ const __dirname = path.dirname(__filename);
 
 let mainWindow;
 let backendProcess;
-
-
-function getBackendName(){
-
-    if(process.platform === "win32"){
-        return "StraussBackend.exe";
-    }
-
-    return "StraussBackend";
-}
-
-
-function getBackendPath(){
-
-    const backendName = getBackendName();
-
-    return app.isPackaged
-        ? path.join(process.resourcesPath, "backend", backendName)
-        : path.join(__dirname, "..", "StraussModule", "python_core", "dist", "StraussBackend", backendName);
-}
-
 
 function getWindowIcon(){
 
@@ -46,7 +25,83 @@ function getWindowIcon(){
 
 function startBackend(){
 
-    const backendPath = getBackendPath();
+    let backendPath;
+
+    if(app.isPackaged){
+
+        switch(process.platform){
+
+            case "win32":
+                backendPath = path.join(
+                    process.resourcesPath,
+                    "backend",
+                    "StraussBackend.exe"
+                );
+                break;
+
+            case "linux":
+                backendPath = path.join(
+                    process.resourcesPath,
+                    "backend",
+                    "StraussBackend"
+                );
+                break;
+
+            case "darwin":
+                backendPath = path.join(
+                    process.resourcesPath,
+                    "backend",
+                    "StraussBackend"
+                );
+                break;
+
+            default:
+                console.error(`[BACKEND] Unsupported platform: ${process.platform}`);
+                return;
+        }
+
+    }else{
+
+        switch(process.platform){
+
+            case "win32":
+                backendPath = path.join(
+                    __dirname,
+                    "..",
+                    "backends",
+                    "win",
+                    "StraussBackend-windows",
+                    "StraussBackend.exe"
+                );
+                break;
+
+            case "linux":
+                backendPath = path.join(
+                    __dirname,
+                    "..",
+                    "backends",
+                    "linux",
+                    "StraussBackend-linux",
+                    "StraussBackend"
+                );
+                break;
+
+            case "darwin":
+                backendPath = path.join(
+                    __dirname,
+                    "..",
+                    "backends",
+                    "mac",
+                    "StraussBackend-macos",
+                    "StraussBackend"
+                );
+                break;
+
+            default:
+                console.error(`[BACKEND] Unsupported platform: ${process.platform}`);
+                return;
+        }
+    }
 
     console.log(`[BACKEND] Starting: ${backendPath}`);
 
@@ -54,10 +109,21 @@ function startBackend(){
         windowsHide: process.platform === "win32"
     });
 
-    backendProcess.stdout.on("data", (data) => {console.log(`[BACKEND] ${data}`);});
-    backendProcess.stderr.on("data", (data) => {console.error(`[BACKEND ERROR] ${data}`);});
-    backendProcess.on("error", (error) => {console.error("[BACKEND] Failed to start:", error);});
-    backendProcess.on("exit", (code) => {console.log(`[BACKEND] Process exited with code ${code}`);});
+    backendProcess.stdout.on("data", (data) => {
+        console.log(`[BACKEND] ${data}`);
+    });
+
+    backendProcess.stderr.on("data", (data) => {
+        console.error(`[BACKEND ERROR] ${data}`);
+    });
+
+    backendProcess.on("error", (error) => {
+        console.error("[BACKEND] Failed to start:", error);
+    });
+
+    backendProcess.on("exit", (code) => {
+        console.log(`[BACKEND] Process exited with code ${code}`);
+    });
 }
 
 
@@ -65,7 +131,11 @@ function createWindow(){
 
     mainWindow = new BrowserWindow({width: 1600, height: 1000, minWidth: 1000, minHeight: 700,
         icon: getWindowIcon(),
-        webPreferences: {contextIsolation: true, nodeIntegration: false}
+        webPreferences: {
+            contextIsolation: true,
+            nodeIntegration: false,
+            preload: path.join(__dirname, "preload.cjs")
+        }
     });
 
     mainWindow.loadFile(path.join(__dirname, "..", "index.html"));
@@ -73,6 +143,10 @@ function createWindow(){
 
 
 app.whenReady().then(() => {
+    ipcMain.handle("open-presentation", async () => {
+    return await openPresentation();
+});
+    ipcMain.handle("open-config", () => openConfig());
     startBackend();
     createWindow();
 });
@@ -97,3 +171,65 @@ app.on("before-quit", () => {
         backendProcess.kill();
     }
 });
+
+async function openPresentation(){
+
+    const pdfPath = app.isPackaged
+        ? path.join(process.resourcesPath, "presentation.pdf")
+        : path.join(__dirname, "..", "res", "presentation.pdf");
+
+    console.log(`[PRESENTATION] Opening: ${pdfPath}`);
+
+    const error = await shell.openPath(pdfPath);
+
+    if(error){
+        console.error(`[PRESENTATION] Failed to open: ${error}`);
+        return {success: false, error};
+    }
+
+    console.log("[PRESENTATION] Opened successfully");
+
+    return {success: true};
+}
+
+async function openConfig(){
+
+    const configsPath = app.isPackaged
+        ? path.join(process.resourcesPath, "configs")
+        : path.join(__dirname, "..", "configs");
+
+    const result = await dialog.showOpenDialog(mainWindow, {
+
+        title: "Load YAML Configuration",
+
+        defaultPath: configsPath,
+
+        properties: ["openFile"],
+
+        filters: [
+            {
+                name: "YAML Files",
+                extensions: ["yaml", "yml"]
+            }
+        ]
+
+    });
+
+    if(result.canceled){
+        return {
+            canceled: true
+        };
+    }
+
+    const filePath = result.filePaths[0];
+
+    const fs = await import("fs/promises");
+
+    const content = await fs.readFile(filePath, "utf8");
+
+    return {
+        canceled: false,
+        name: path.basename(filePath),
+        content: content
+    };
+}
