@@ -117,3 +117,61 @@ jobs:
         with:
           name: Strauss-macOS
           path: release/*.dmg
+
+  build-windows:
+
+    runs-on: windows-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r StraussModule/python_core/requirements.txt
+          pip install pyinstaller
+
+
+      - name: Build Windows backend
+        working-directory: StraussModule/python_core
+        run: |
+          pyinstaller --clean --onedir --name StraussBackend server.py
+
+
+      - name: Prepare Windows backend
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path backends/win
+          Move-Item `
+            StraussModule/python_core/dist/StraussBackend `
+            backends/win/StraussBackend-windows
+
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+
+      - name: Install Node dependencies
+        run: npm install
+
+
+      - name: Build Windows application
+        run: npm run dist:win
+
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Strauss-Windows
+          path: release/*.exe
